@@ -1,0 +1,64 @@
+import discord
+from discord.ext import commands
+import random
+import os
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+@bot.event
+async def on_ready():
+     print(f'{bot.user} olarak giriş yaptık')
+
+@bot.command()
+async def merhaba(ctx):
+    await ctx.send(f'Merhaba {bot.user}! Ben bir botum!')
+
+@bot.command()
+async def gen_emoji(ctx):
+    emoji = ["\U0001f600", "\U0001f642", "\U0001F606", "\U0001F923"]
+    await ctx.send(random.choice(emoji))
+
+@bot.command()
+async def yazı_tura(ctx):
+    donme = random.randint(0, 2)
+    if donme == 0:
+        await ctx.send("tura")
+    else:
+        await ctx.send("yazı")
+    
+@bot.command()
+async def bay(ctx):
+    await ctx.send(f'görüşmek üzere:(')
+
+
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+
+@bot.command()
+async def saka_yap(ctx):
+    saka = ["Kelebekler, köstebekler ama ben beklemem","Masada hangi örtü kullanılmaz? = bitkiörtüsü","Türkiye'nin en yeni şehri hangisidir? = Nevşehir","kırmızı giyen erkeğe ne denir? = Albay"]          
+    await ctx.send(random.choice(saka))
+
+@bot.command()
+async def mem(ctx):
+    with open('images/meme1.png', 'rb') as f:
+        picture = discord.File(f)
+    await ctx.send(file=picture) 
+
+@bot.command()
+async def meme(ctx):
+    image = os.listdir('images')
+    memeh = random.choice(image)
+    with open(f'images/{memeh}', 'rb') as f:
+            picture = discord.File(f) 
+    await ctx.send(file=picture)
+
+@bot.command()
+async def fıkra_anlat(ctx):
+    fıkra = ["Adam, papağanını gümrükten kolay geçirebilmek için bir kutuya koymuş, üstüne de kırılacak eşya diye yazmıştı.Gümrük memuru yazıyı okuyunca, kutuyu şöyle bir silkelemeye başladı. Aynı anda içeriden papağanın bağırdığı duyuldu:Şangur şungur.. Şangur şungur..","Adam son derece gururlanarak kendinden bahsediyordu:- Ben akordeonu alıp çalmaya başlayınca herkesi ayağa kaldırırım.Arkadaşı şaşırır:- Demek o kadar ustasınız bu enstrümanda!- Yok canım, ben sadece milli marşı çalmasını bilirim","Camide vaaz vermekte olan Hoca'ya:- Hocam, at nalını evimizin kapısına asarsak uğur getirir mi? demişler. Hoca:- Zannetmiyorum, diye cevap vermiş. O nallardan her atta dört tane var, ama bütün gün kamçı yiyip duruyor.","Öğretmen derste anonim kelimesinin manasını anlatıyordu;- Anonim, isimsiz demektir. Yani kime ait olduğu belli değildir. Tam o esnada bir kahkaha duyuldu, öğretmen sordu;- Kim güldü? Temel cevap verdi:- Anonim!"]
+    await ctx.send(random.choice(fıkra))
+                      
+
+bot.run("token")
